@@ -44,7 +44,7 @@ namespace PalTracker
             //    throw new ApplicationException("CloudNative  not configured.");
             //    }
           services.AddSingleton(sp => new CloudFoundryInfo(Port,MemoryLimit,CfInstanceIndex,CfInstanceAddr));
-
+            services.AddSingleton<ITimeEntryRepository, InMemoryTimeEntryRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
