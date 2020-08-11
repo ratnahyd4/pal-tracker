@@ -26,6 +26,25 @@ namespace PalTracker
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            var message = Configuration.GetValue<string>("WELCOME_MESSAGE");
+             if (string.IsNullOrEmpty(message))    
+               {
+               throw new ApplicationException("WELCOME_MESSAGE not configured.");
+               }
+             services.AddSingleton(sp => new WelcomeMessage(message));
+
+             var Port = Configuration.GetValue<string>("PORT");
+              var MemoryLimit = Configuration.GetValue<string>("MEMORY_LIMIT");
+             var CfInstanceIndex = Configuration.GetValue<string>("CF_INSTANCE_INDEX");
+             var CfInstanceAddr = Configuration.GetValue<string>("CF_INSTANCE_ADDR");
+
+            //   if (string.IsNullOrEmpty(Port))    
+            //    {
+            //    throw new ApplicationException("CloudNative  not configured.");
+            //    }
+          services.AddSingleton(sp => new CloudFoundryInfo(Port,MemoryLimit,CfInstanceIndex,CfInstanceAddr));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
